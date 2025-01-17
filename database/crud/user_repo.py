@@ -20,3 +20,10 @@ class UserRepository:
         await self.session.commit()
         await self.session.refresh(new_user)
         return new_user
+
+    async def get_all_users(self) -> str:
+        result = await self.session.execute(select(User))
+        list_users = ""
+        for user in result.scalars().all():
+            list_users += f"{user.full_name} - {user.phone}\n"
+        return list_users

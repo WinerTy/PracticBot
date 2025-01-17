@@ -94,3 +94,11 @@ async def process_full_name(message: types.Message, state: FSMContext):
 
     finally:
         await state.clear()
+
+
+@command_router.message(Command("list"))
+async def list_users(message: types.Message):
+    async for session in db_helper.session_getter():
+        user_repo = UserRepository(session)
+        users = await user_repo.get_all_users()
+        await message.answer(f"Список пользователей:\n{users}")
