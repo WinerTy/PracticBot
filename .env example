@@ -1,0 +1,2 @@
+APP_CONFIG__BOT__TOKEN=TOKEN
+APP_CONFIG__DB__URL=postgresql+asyncpg://postgresql:admin@localhost:5432/bot
