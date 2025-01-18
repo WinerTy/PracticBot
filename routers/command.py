@@ -15,13 +15,15 @@ command_router = Router()
 @command_router.message(Command("start"))
 async def start(message):
     logger.info(f"Пользователь {message.from_user.id} вызвал команду /start")
-    await message.answer("Привет! Я бот для регистрации пользователей.")
+    await message.answer(
+        "Привет! Я бот для регистрации пользователей.\nИспользуй команды: /register, /list, /help"
+    )
 
 
 @command_router.message(Command("help"))
 async def help_message(message):
     logger.info(f"Пользователь {message.from_user.id} вызвал команду /help")
-    await message.answer("Help")
+    await message.answer("Доступные команды: /start, /help, /register, /list")
 
 
 @command_router.message(Command("register"))
@@ -98,6 +100,7 @@ async def process_full_name(message: types.Message, state: FSMContext):
 
 @command_router.message(Command("list"))
 async def list_users(message: types.Message):
+    logger.info(f"Пользователь {message.from_user.id} использовал команду /list")
     async for session in db_helper.session_getter():
         user_repo = UserRepository(session)
         users = await user_repo.get_all_users()
